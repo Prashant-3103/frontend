@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const NavItemCollapse = ({title,link, content,icon,name, activeNavName, setActiveNavName}) => {
+const NavItemCollapse = ({title,link, children,icon,name, activeNavName, setActiveNavName}) => {
     const [isChecked, setIsChecked] = useState(false)
 useEffect(()=>{
     if(activeNavName!==name)
@@ -23,9 +23,7 @@ useEffect(()=>{
   </div>
   <div className="collapse-content">
    <div className='mt-2 flex flex-col gap-y-2'>
-{content.map((item)=>(
-    <Link to={item.link}>{item.title}</Link>
-))}
+{children}
    </div>
   </div>
 </div>

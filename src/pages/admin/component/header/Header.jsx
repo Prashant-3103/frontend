@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { useWindowSize } from '@uidotdev/usehooks'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { images } from '../../../../constants'
 import {AiFillDashboard, AiOutlineClose, AiOutlineMenu} from 'react-icons/ai'
 import { FaComments } from 'react-icons/fa'
 import {MdDashboard} from 'react-icons/md'
 import NavItem from './NavItem'
 import NavItemCollapse from './NavItemCollapse'
-const MENU_ITEMS = [
-    {
-        title: "Dashboard",
-        link: "/admin",
-        icon: <AiFillDashboard className='text-xl'/>,
-        name: "dashboard",
-        type: "link"
-    },
-    {
-        title: "Comments",
-        link: "/admin/comments",
-        icon: <FaComments className='text-xl'/>,
-        name: "comments",
-        type: "link"
-    },
-    {
-        title: "Posts",
-        content: [{title: "New", link: "/admin/posts/new"},{title: "Manage", link: "/admin/posts/manage"}],
-        icon: <MdDashboard className='text-xl'/>,
-        name: "posts",
-        type: "collapse"
-    }
-]
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux'
+import { createPost } from '../../../../services/index/posts'
 
 const Header = () => {
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+    const userState = useSelector((state) => state.user)
     const [isMenuActive, setIsMenuActive] = useState(false)
      const [activeNavName, setActiveNavName] = useState('dashboard')
      const windowSize = useWindowSize()
+
+
+     const { mutate: mutateCreatePost, isLoading: isLoadindCreatePost } = useMutation({
+        mutationFn: ({slug, token }) => {
+          return createPost({
+            token
+          });
+        },
+        onSuccess: (data) => {
+          queryClient.invalidateQueries(["posts"])
+          toast.success("New Poast is created, edit that now");
+          navigate(`/admin/posts/manage/edit/${data.slug}`)
+        },
+        onError: (error) => {
+          toast.error(error.message);
+          console.log(error);
+        },
+      });
+
     const toggleMenuHandler =()=>{
         setIsMenuActive((prevState)=> !prevState)
     }
@@ -47,6 +50,12 @@ const Header = () => {
             setIsMenuActive(true)
         }
     },[windowSize.width])
+
+
+const handleCreateNewPost =({token})=>{
+mutateCreatePost({token})
+}
+
   return (
    <header className='flex h-fit w-full items-center justify-between p-4 lg:h-full  lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0'>
     {/*logo*/}
@@ -74,23 +83,38 @@ onClick={toggleMenuHandler}
 <h4 className='mt-10 font-bold text-[#c7c7c7]'>Main menu</h4>
 {/* menu items */}
 <div className='mt-6 flex flex-col gap-y-[0.563rem]'>
-{MENU_ITEMS.map((item)=> item.type==='link'? <NavItem key={item.title}
-title={item.title}
-icon={item.icon}
-link={item.link}
-name={item.name}
+ <NavItem
+title="Dashboard"
+icon={<AiFillDashboard className='text-xl'/>}
+link="/admin"
+name="dashboard"
 activeNavName={activeNavName}
 setActiveNavName={setActiveNavName}
 
 
-/> : <NavItemCollapse key={item.title}
-title={item.title}
-icon={item.icon}
-content={item.content}
-name={item.name}
+/>
+
+<NavItem
+title="Comments"
+icon={<FaComments className='text-xl'/>}
+link="/admin/comments"
+name="comments"
 activeNavName={activeNavName}
 setActiveNavName={setActiveNavName}
-/> )}
+
+
+/>
+ <NavItemCollapse
+title="Posts"
+icon={<MdDashboard className='text-xl'/>}
+name="posts"
+activeNavName={activeNavName}
+setActiveNavName={setActiveNavName}
+>
+
+    <Link to="/admin/posts/manage">Manage all posts</Link>
+    <button disabled={isLoadindCreatePost} className='text-start disabled:opacity-70 disabled:cursor-not-allowed' onClick={()=>handleCreateNewPost({token: userState.userInfo.token})}>Add New Post</button>
+</NavItemCollapse>
 </div>
 </div>
     </div>

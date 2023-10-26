@@ -13,7 +13,8 @@ import { useState } from 'react'
 import ArticleDetailSkeleton from './components/ArticleDetailSkeleton'
 import ErrorMessage from '../../components/ErrorMessage'
 import { useSelector } from 'react-redux'
-import parseJsonToHtml from '../../utils/parseJsonToHtml'
+import parseJsonToHtml from '../../utils/parseJsonToHtml.js'
+import Editor from '../../components/editor/Editor'
 
 
 const ArticleDetailPage = () => {
@@ -31,6 +32,8 @@ const {data, isLoading, isError} = useQuery({
             {name: "Blog", link: "/blog" },
             {name: "Article title", link: `/blog/${data.slug}` }
         ])
+        console.log(data);
+        console.log("hey");
      setBody(parseJsonToHtml(data?.body));
     }
 })
@@ -56,10 +59,15 @@ const {data: postsData} = useQuery({
     </div>
 
     <h1 className='text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px] ' >{data?.title}</h1>
-    <div className='mt-4 prose prose-sm sm:prose-base'>
-        {/* <p className='leading-7'></p> */}
-        {body}
-    </div>
+    <div className="w-full">
+              {!isLoading && !isError && (
+                <Editor
+                  content={data?.body}
+                  editable={false}
+
+                />
+              )}
+            </div>
     <CommentsContainer comments={data?.comments} className='mt-10' logginedUserId={userState?.userInfo?._id} postSlug={slug}/>
     </article>
 

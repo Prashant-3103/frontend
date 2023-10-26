@@ -8,7 +8,7 @@ const SuggestedPosts = ({className, header, posts=[],tags}) => {
 <div className='grid gap-y-5 mt-5 md:grid-cols-2  md:gap-x-5 lg:grid-cols-1'>
 {posts.map((item)=>(
     <div key={item._id} className='flex spacex-3 flex-nowrap items-center '>
-<img className='aspect-square object-cover rounded-lg w-1/5' src={item?.image? stables.UPLOAD_FOLDER_BASE_URL+ item?.image: images.samplePostImage} alt={item.title} />
+<img className='aspect-square object-cover rounded-lg w-1/5' src={item?.photo? stables.UPLOAD_FOLDER_BASE_URL+ item?.photo: images.samplePostImage} alt={item.title} />
 <div className='text-sm font-roboto text-dark-hard font-medium p-2'>
     <h3 className='text-sm font-roboto text-dark-hard font-medium  md:text-base lg:text-lg'><Link to={`/blog/${item.slug}`}>{item.title}</Link></h3>
     <span className='text-xs opacity-60'>
