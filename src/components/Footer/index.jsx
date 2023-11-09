@@ -1,5 +1,5 @@
 import React from 'react'
-import {images} from '../constants'
+import {images} from '../../constants'
 import {AiOutlineTwitter, AiFillYoutube, AiFillInstagram, AiFillGithub} from 'react-icons/ai'
 import {BsGithub, BsHeart, BsTelegram, BsYoutube} from 'react-icons/bs'
 import {FaFacebook} from 'react-icons/fa'

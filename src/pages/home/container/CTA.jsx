@@ -1,5 +1,6 @@
 import React from 'react'
 import { images } from '../../../constants'
+import NewsletterSubscribe from '../../../components/Footer/NewsLetterSubscribe'
 const CTA = () => {
   return (
     <>
@@ -22,14 +23,9 @@ const CTA = () => {
 <section className='relative bg-dark-hard px-5'>
     <div className='container grid grid-cols-12 mx-auto py-10 md:pb-20 lg:place-items-center '>
         <div className='col-span-12 lg:col-span-6'>
-<h2 className='text-white font-roboto font-bold text-2xl text-center md:text-4xl md:text-center md:leading-normal lg:text-left '>
-    Get our stories delivered from us to your inbox weekly!!!
-</h2>
-<div className='w-full max-w-[494px] mt-12 space-y-3 mx-auto md:space-y-0 md:flex md:items-center md:space-x-2 lg:mx-0'>
-    <input type="text" placeholder='your email' className='px-4 py-3 rounded-lg w-full placeholder:text-dark-light placeholder:text-center'/>
-    <button className='px-4 py-3 rounded-lg w-full bg-primary text-white font-bold md:w-fit md:whitespace-nowrap  '>Get started</button>
+    <NewsletterSubscribe/>
 
-</div>
+{/* </div> */}
 <p className='text-dark-light text-sm leading-7 mt-6 text-center md:text-center md:text-base lg:text-left'><span className='font-bold italic text-[#b3bac5] md:not-italic md:font-normal md:text-dark-light '>Get a response tomorrow</span> if you submit by 9pm today. If we received after 9pm will get a response the following day</p>
         </div>
         <div className='col-span-12 hidden mb-[70px] md:block md:order-first lg:col-span-6 lg:order-last '>
