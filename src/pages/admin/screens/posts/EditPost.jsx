@@ -9,6 +9,7 @@ import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import Editor from "../../../../components/editor/Editor";
+import MultiSelectTagDropDown from "../../component/select-dropdown/MultiSelectTagDropDown";
 
 const EditPost = () => {
   const { slug } = useParams();
@@ -22,6 +23,8 @@ const EditPost = () => {
     queryFn: () => getSinglePost({ slug }),
     queryKey: ["blog", slug],
   });
+
+console.log("single post data is", data);
 
   const {
     mutate: mutateUpdatePostDetail,
@@ -144,6 +147,9 @@ const EditPost = () => {
             <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
               {data?.title}
             </h1>
+            <div className="my-5">
+<MultiSelectTagDropDown/>
+            </div>
             <div className="w-full">
               {!isLoading && !isError && (
                 <Editor

@@ -178,7 +178,7 @@ No post found
                  {!isLoading &&  <Pagination
                  onPageChange={(page)=> setCurrentPage(page)}
                  currentPage={currentPage}
-                 totalPageCount={JSON.parse(postsData?.headers?.['x-totalpagecount'])}
+                 totalPageCount={postsData?.headers?.['x-totalpagecount'] ? parseInt(postsData.headers['x-totalpagecount']) : 0}
 
                  />}
                 </div>
